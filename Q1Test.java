@@ -83,9 +83,15 @@ public class Q1Test {
                hasPreAndPost = true;
                output[0] = "Preorder";
                if (t1[0].equals(t2[length - 1])) {
+                    if (!isValidInorder(t3)) {
+                         return "Invalid traversals";
+                    }
                     output[1] = "Postorder";
                     output[2] = "Inorder";
                } else {
+                    if (!isValidInorder(t2)) {
+                         return "Invalid traversals";
+                    }
                     output[2] = "Postorder";
                     output[1] = "Inorder";
                }
@@ -96,9 +102,15 @@ public class Q1Test {
                hasPreAndPost = true;
                output[1] = "Preorder";
                if (t2[0].equals(t3[length - 1])) {
+                    if (!isValidInorder(t1)) {
+                         return "Invalid traversals";
+                    }
                     output[2] = "Postorder";
                     output[0] = "Inorder";
                } else {
+                    if (!isValidInorder(t3)) {
+                         return "Invalid traversals";
+                    }
                     output[0] = "Postorder";
                     output[2] = "Inorder";
                }
@@ -109,9 +121,15 @@ public class Q1Test {
                hasPreAndPost = true;
                output[2] = "Preorder";
                if (t3[0].equals(t2[length - 1])) {
+                    if (!isValidInorder(t1)) {
+                         return "Invalid traversals";
+                    }
                     output[1] = "Postorder";
                     output[0] = "Inorder";
                } else {
+                    if (!isValidInorder(t2)) {
+                         return "Invalid traversals";
+                    }
                     output[0] = "Postorder";
                     output[1] = "Inorder";
                }
@@ -121,5 +139,14 @@ public class Q1Test {
                return String.format("Traversal 1 - %s, Traversal 2 - %s, Traversal 3 - %s", output[0], output[1], output[2]);
           }
           return "Invalid traversals";
+     }
+
+     private static boolean isValidInorder(String[] arr) {
+          for (int i = 0; i < arr.length - 1; i++) {
+               if (Integer.parseInt(arr[i]) > Integer.parseInt(arr[i+1])) {
+                    return false;
+               }
+          }
+          return true;
      }
 }
