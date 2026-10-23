@@ -1,4 +1,6 @@
+
 import java.util.*;
+
 public class Q1Test {
 
     public static void main(String[] args) {
@@ -89,7 +91,7 @@ public class Q1Test {
                 }
                 output[1] = "Postorder";
                 output[2] = "Inorder";
-                if (isValidTree(t1, t3, t2)) {
+                if (checkTree(t1, t3, t2)) {
                     hasPreAndPost = true;
                 }
             } else {
@@ -98,7 +100,7 @@ public class Q1Test {
                 }
                 output[2] = "Postorder";
                 output[1] = "Inorder";
-                if (isValidTree(t1, t2, t3)) {
+                if (checkTree(t1, t2, t3)) {
                     hasPreAndPost = true;
                 }
             }
@@ -113,7 +115,7 @@ public class Q1Test {
                 }
                 output[2] = "Postorder";
                 output[0] = "Inorder";
-                if (isValidTree(t2, t1, t3)) {
+                if (checkTree(t2, t1, t3)) {
                     hasPreAndPost = true;
                 }
             } else {
@@ -122,7 +124,7 @@ public class Q1Test {
                 }
                 output[0] = "Postorder";
                 output[2] = "Inorder";
-                if (isValidTree(t2, t3, t1)) {
+                if (checkTree(t2, t3, t1)) {
                     hasPreAndPost = true;
                 }
             }
@@ -137,7 +139,7 @@ public class Q1Test {
                 }
                 output[1] = "Postorder";
                 output[0] = "Inorder";
-                if (isValidTree(t3, t1, t2)) {
+                if (checkTree(t3, t1, t2)) {
                     hasPreAndPost = true;
                 }
             } else {
@@ -146,7 +148,7 @@ public class Q1Test {
                 }
                 output[0] = "Postorder";
                 output[1] = "Inorder";
-                if (isValidTree(t3, t2, t1)) {
+                if (checkTree(t3, t2, t1)) {
                     hasPreAndPost = true;
                 }
             }
@@ -167,41 +169,37 @@ public class Q1Test {
         return true;
     }
 
-    private static boolean isValidTree(String[] pre, String[] ino, String[] pos) {
-        if (pre.length == 0) {
+    private static boolean checkTree(String[] pre, String[] ino, String[] pos) {
+        Map<String, Integer> inoMap = new HashMap<>();
+        for (int i = 0; i < ino.length; i++) {
+            inoMap.put(ino[i], i);
+        }
+        return isValidTree(pre, 0, pre.length - 1,
+                ino, 0, ino.length - 1,
+                pos, 0, pos.length - 1, inoMap);
+    }
+
+    private static boolean isValidTree(String[] pre, int pStart, int pEnd,
+            String[] ino, int iStart, int iEnd,
+            String[] pos, int posStart, int posEnd,
+            Map<String, Integer> inoMap) {
+        if (pStart > pEnd) {
             return true;
         }
 
-        String root = pre[0];
-        if (!pos[pos.length - 1].equals(root)) {
+        String root = pre[pStart];
+        if (!pos[posEnd].equals(root)) {
             return false;
         }
 
-        int rootIndex = -1;
-        for (int i = 0; i < ino.length; i++) {
-            if (ino[i].equals(root)) {
-                rootIndex = i;
-                break;
-            }
-        }
-
-        if (rootIndex == -1) {
+        Integer rootIndex = inoMap.get(root);
+        if (rootIndex == null || rootIndex < iStart || rootIndex > iEnd) {
             return false;
         }
 
-        String[] leftIno = Arrays.copyOfRange(ino, 0, rootIndex);
-        String[] rightIno = Arrays.copyOfRange(ino, rootIndex + 1, ino.length);
+        int leftLen = rootIndex - iStart;
 
-        int leftLen = leftIno.length;
-        int rightLen = rightIno.length;
-
-        String[] leftPre = Arrays.copyOfRange(pre, 1, 1 + leftLen);
-        String[] rightPre = Arrays.copyOfRange(pre, 1 + leftLen, pre.length);
-
-        String[] leftPos = Arrays.copyOfRange(pos, 0, leftLen);
-        String[] rightPos = Arrays.copyOfRange(pos, leftLen, leftLen + rightLen);
-
-        return isValidTree(leftPre, leftIno, leftPos) && isValidTree(rightPre, rightIno, rightPos);
+        return isValidTree(pre, pStart + 1, pStart + leftLen, ino, iStart, rootIndex - 1, pos, posStart, posStart + leftLen - 1, inoMap)
+                && isValidTree(pre, pStart + leftLen + 1, pEnd, ino, rootIndex + 1, iEnd, pos, posStart + leftLen, posEnd - 1, inoMap);
     }
 }
-
