@@ -64,6 +64,65 @@ public class Q1Test {
 
       // write your codes here
      public static String verify(String traversal1, String traversal2, String traversal3){
-          return "";
+          if (!(traversal1.length() == traversal2.length() && traversal1.length() == traversal3.length())) {
+               return "Invalid traversals";
+          }
+
+          String[] t1 = traversal1.split("-");
+          String[] t2 = traversal2.split("-");
+          String[] t3 = traversal3.split("-");
+
+          String[] output = new String[3];
+
+          int length = t1.length;
+          boolean hasPreAndPost = false;
+          if (t1[0].equals(t2[length - 1]) || t1[0].equals(t3[length - 1])) {
+               if (t1[0].equals(t2[length - 1]) && t1[0].equals(t3[length - 1])) {
+                    return "Invalid traversals";
+               }
+               System.out.println("first");
+               hasPreAndPost = true;
+               output[0] = "Preorder";
+               if (t1[0].equals(t2[length - 1])) {
+                    output[1] = "Postorder";
+                    output[2] = "Inorder";
+               } else {
+                    output[2] = "Postorder";
+                    output[1] = "Inorder";
+               }
+          } else if (t2[0].equals(t3[length - 1]) || t2[0].equals(t1[length - 1])) {
+               if (t2[0].equals(t3[length - 1]) && t2[0].equals(t1[length - 1])) {
+                   return "Invalid traversals";
+               }
+               System.out.println("second");
+               hasPreAndPost = true;
+               output[1] = "Preorder";
+               if (t2[0].equals(t3[length - 1])) {
+                    output[2] = "Postorder";
+                    output[0] = "Inorder";
+               } else {
+                    output[0] = "Postorder";
+                    output[2] = "Inorder";
+               }
+          } else if (t3[0].equals(t2[length - 1]) || t3[0].equals(t1[length - 1])) {
+               if (t3[0].equals(t2[length - 1]) && t3[0].equals(t1[length - 1])) {
+                    return "Invalid traversals";
+               }
+               System.out.println("third");
+               hasPreAndPost = true;
+               output[2] = "Preorder";
+               if (t3[0].equals(t2[length - 1])) {
+                    output[1] = "Postorder";
+                    output[0] = "Inorder";
+               } else {
+                    output[0] = "Postorder";
+                    output[1] = "Inorder";
+               }
+          }
+
+          if (hasPreAndPost) {
+               return String.format("Traversal 1 - %s, Traversal 2 - %s, Traversal 3 - %s", output[0], output[1], output[2]);
+          }
+          return "Invalid traversals";
      }
 }
