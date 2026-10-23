@@ -80,7 +80,6 @@ public class Q1Test {
                if (t1[0].equals(t2[length - 1]) && t1[0].equals(t3[length - 1])) {
                     return "Invalid traversals";
                }
-               System.out.println("first");
                hasPreAndPost = true;
                output[0] = "Preorder";
                if (t1[0].equals(t2[length - 1])) {
@@ -94,7 +93,6 @@ public class Q1Test {
                if (t2[0].equals(t3[length - 1]) && t2[0].equals(t1[length - 1])) {
                    return "Invalid traversals";
                }
-               System.out.println("second");
                hasPreAndPost = true;
                output[1] = "Preorder";
                if (t2[0].equals(t3[length - 1])) {
@@ -108,7 +106,6 @@ public class Q1Test {
                if (t3[0].equals(t2[length - 1]) && t3[0].equals(t1[length - 1])) {
                     return "Invalid traversals";
                }
-               System.out.println("third");
                hasPreAndPost = true;
                output[2] = "Preorder";
                if (t3[0].equals(t2[length - 1])) {
