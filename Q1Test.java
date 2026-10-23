@@ -76,168 +76,130 @@ public class Q1Test {
             return "Invalid traversals";
         }
 
-        int length = t1.length;
-        int[] a1 = parseArray(t1);
-        int[] a2 = parseArray(t2);
-        int[] a3 = parseArray(t3);
-
-        if (a1 == null || a2 == null || a3 == null) {
-            return "Invalid traversals";
-        }
-
         String[] output = new String[3];
+        int length = t1.length;
         boolean hasPreAndPost = false;
 
-        if (a1[0] == a2[length - 1] || a1[0] == a3[length - 1]) {
-            if (a1[0] == a2[length - 1] && a1[0] == a3[length - 1]) {
+        if (t1[0].equals(t2[length - 1]) || t1[0].equals(t3[length - 1])) {
+            if (t1[0].equals(t2[length - 1]) && t1[0].equals(t3[length - 1])) {
                 return "Invalid traversals";
             }
             output[0] = "Preorder";
-            if (a1[0] == a2[length - 1]) {
-                if (!isValidInorder(a3))
+            if (t1[0].equals(t2[length - 1])) {
+                if (!isValidInorder(t3)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a1, a2)) {
-                    output[1] = "Postorder";
-                    output[2] = "Inorder";
+                }
+                output[1] = "Postorder";
+                output[2] = "Inorder";
+                if (checkTree(t1, t3, t2)) {
                     hasPreAndPost = true;
                 }
             } else {
-                if (!isValidInorder(a2))
+                if (!isValidInorder(t2)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a1, a3)) {
-                    output[2] = "Postorder";
-                    output[1] = "Inorder";
+                }
+                output[2] = "Postorder";
+                output[1] = "Inorder";
+                if (checkTree(t1, t2, t3)) {
                     hasPreAndPost = true;
                 }
             }
-        } else if (a2[0] == a3[length - 1] || a2[0] == a1[length - 1]) {
-            if (a2[0] == a3[length - 1] && a2[0] == a1[length - 1]) {
+        } else if (t2[0].equals(t3[length - 1]) || t2[0].equals(t1[length - 1])) {
+            if (t2[0].equals(t3[length - 1]) && t2[0].equals(t1[length - 1])) {
                 return "Invalid traversals";
             }
             output[1] = "Preorder";
-            if (a2[0] == a3[length - 1]) {
-                if (!isValidInorder(a1))
+            if (t2[0].equals(t3[length - 1])) {
+                if (!isValidInorder(t1)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a2, a3)) {
-                    output[2] = "Postorder";
-                    output[0] = "Inorder";
+                }
+                output[2] = "Postorder";
+                output[0] = "Inorder";
+                if (checkTree(t2, t1, t3)) {
                     hasPreAndPost = true;
                 }
             } else {
-                if (!isValidInorder(a3))
+                if (!isValidInorder(t3)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a2, a1)) {
-                    output[0] = "Postorder";
-                    output[1] = "Inorder";
+                }
+                output[0] = "Postorder";
+                output[2] = "Inorder";
+                if (checkTree(t2, t3, t1)) {
                     hasPreAndPost = true;
                 }
             }
-        } else if (a3[0] == a2[length - 1] || a3[0] == a1[length - 1]) {
-            if (a3[0] == a2[length - 1] && a3[0] == a1[length - 1]) {
+        } else if (t3[0].equals(t2[length - 1]) || t3[0].equals(t1[length - 1])) {
+            if (t3[0].equals(t2[length - 1]) && t3[0].equals(t1[length - 1])) {
                 return "Invalid traversals";
             }
             output[2] = "Preorder";
-            if (a3[0] == a2[length - 1]) {
-                if (!isValidInorder(a1))
+            if (t3[0].equals(t2[length - 1])) {
+                if (!isValidInorder(t1)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a3, a2)) {
-                    output[1] = "Postorder";
-                    output[0] = "Inorder";
+                }
+                output[1] = "Postorder";
+                output[0] = "Inorder";
+                if (checkTree(t3, t1, t2)) {
                     hasPreAndPost = true;
                 }
             } else {
-                if (!isValidInorder(a2))
+                if (!isValidInorder(t2)) {
                     return "Invalid traversals";
-                if (matchesPostorder(a3, a1)) {
-                    output[0] = "Postorder";
-                    output[1] = "Inorder";
+                }
+                output[0] = "Postorder";
+                output[1] = "Inorder";
+                if (checkTree(t3, t2, t1)) {
                     hasPreAndPost = true;
                 }
             }
         }
 
         if (hasPreAndPost) {
-            return String.format("Traversal 1 - %s, Traversal 2 - %s, Traversal 3 - %s", output[0], output[1],
-                    output[2]);
+            return String.format("Traversal 1 - %s, Traversal 2 - %s, Traversal 3 - %s", output[0], output[1], output[2]);
         }
         return "Invalid traversals";
     }
 
-    private static int[] parseArray(String[] arr) {
-        int[] nums = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            nums[i] = Integer.parseInt(arr[i]);
-        }
-        return nums;
-    }
-
-    private static boolean isValidInorder(int[] arr) {
+    private static boolean isValidInorder(String[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
-            if (arr[i] >= arr[i + 1]) {
+            if (Integer.parseInt(arr[i]) >= Integer.parseInt(arr[i + 1])) {
                 return false;
             }
         }
         return true;
     }
 
-    private static class Node {
-        int val;
-        Node left, right;
-
-        Node(int val) {
-            this.val = val;
+    private static boolean checkTree(String[] pre, String[] ino, String[] pos) {
+        Map<String, Integer> inoMap = new HashMap<>();
+        for (int i = 0; i < ino.length; i++) {
+            inoMap.put(ino[i], i);
         }
+        return isValidTree(pre, 0, pre.length - 1,
+                ino, 0, ino.length - 1,
+                pos, 0, pos.length - 1, inoMap);
     }
 
-    private static boolean matchesPostorder(int[] pre, int[] expectedPost) {
-        if (pre.length == 0)
+    private static boolean isValidTree(String[] pre, int pStart, int pEnd,
+            String[] ino, int iStart, int iEnd,
+            String[] pos, int posStart, int posEnd,
+            Map<String, Integer> inoMap) {
+        if (pStart > pEnd) {
             return true;
-
-        Node root = new Node(pre[0]);
-        Stack<Node> stack = new Stack<>();
-        stack.push(root);
-
-        int lowerBound = Integer.MIN_VALUE;
-
-        for (int i = 1; i < pre.length; i++) {
-            int val = pre[i];
-            if (val < lowerBound)
-                return false;
-
-            Node curr = new Node(val);
-            if (val < stack.peek().val) {
-                stack.peek().left = curr;
-                stack.push(curr);
-            } else {
-                Node last = null;
-                while (!stack.isEmpty() && val > stack.peek().val) {
-                    last = stack.pop();
-                    lowerBound = last.val;
-                }
-                last.right = curr;
-                stack.push(curr);
-            }
         }
 
-        Stack<Node> s1 = new Stack<>();
-        Stack<Node> s2 = new Stack<>();
-        s1.push(root);
-
-        while (!s1.isEmpty()) {
-            Node curr = s1.pop();
-            s2.push(curr);
-            if (curr.left != null)
-                s1.push(curr.left);
-            if (curr.right != null)
-                s1.push(curr.right);
+        String root = pre[pStart];
+        if (!pos[posEnd].equals(root)) {
+            return false;
         }
 
-        for (int i = 0; i < expectedPost.length; i++) {
-            if (s2.pop().val != expectedPost[i]) {
-                return false;
-            }
+        Integer rootIndex = inoMap.get(root);
+        if (rootIndex == null || rootIndex < iStart || rootIndex > iEnd) {
+            return false;
         }
 
-        return true;
+        int leftLen = rootIndex - iStart;
+
+        return isValidTree(pre, pStart + 1, pStart + leftLen, ino, iStart, rootIndex - 1, pos, posStart, posStart + leftLen - 1, inoMap)
+                && isValidTree(pre, pStart + leftLen + 1, pEnd, ino, rootIndex + 1, iEnd, pos, posStart + leftLen, posEnd - 1, inoMap);
     }
 }
